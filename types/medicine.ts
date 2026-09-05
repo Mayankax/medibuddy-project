@@ -8,6 +8,7 @@ export interface OpenFDA {
 }
 
 export interface Medicine {
+  id?: string;
   openfda?: OpenFDA;
 }
 

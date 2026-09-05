@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-
+import { useState,useRef } from "react";
+import { useRouter } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
 import { searchMedicines } from "@/lib/api";
 import { Medicine } from "@/types/medicine";
@@ -9,26 +9,46 @@ import MedicineCard from "@/components/MedicineCard";
 
 
 export default function Home() {
+  const router = useRouter();
+  const abortControllerRef = useRef<AbortController | null>(null);
+
   const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
   async function handleSearch(query: string) {
+    abortControllerRef.current?.abort();
+
+    const controller = new AbortController();
+
+    abortControllerRef.current = controller;
+
     setLoading(true);
     setError("");
     setHasSearched(true);
 
     try {
-      const data = await searchMedicines(query);
+      const data = await searchMedicines(
+        query,
+        controller.signal
+      );
 
       setMedicines(data.results ?? []);
     } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        return;
+      }
+
       console.error(error);
+
       setMedicines([]);
       setError("Something went wrong. Please try again.");
     } finally {
-      setLoading(false);
+      if (abortControllerRef.current === controller) {
+        setLoading(false);
+        abortControllerRef.current = null;
+      }
     }
   }
 
@@ -115,10 +135,16 @@ export default function Home() {
               <div className="grid gap-4 md:grid-cols-2">
                 {medicines.map((medicine, index) => (
                   <MedicineCard
-                    key={index}
+                    key={medicine.id ?? index}
                     medicine={medicine}
                     onClick={() => {
-                      console.log("Selected medicine:", medicine);
+                      if (!medicine.id) {
+                        return;
+                      }
+
+                      router.push(
+                        `/medicine/${encodeURIComponent(medicine.id)}`
+                      );
                     }}
                   />
                 ))}
