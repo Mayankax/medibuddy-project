@@ -2,12 +2,7 @@ import Link from "next/link";
 import { ArrowLeft, SearchX } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function NotFound() {
   return (
@@ -19,15 +14,13 @@ export default function NotFound() {
               <SearchX className="h-6 w-6 text-slate-500" />
             </div>
 
-            <CardTitle className="text-2xl">
-              Medicine not found
-            </CardTitle>
+            <CardTitle className="text-2xl">Medicine not found</CardTitle>
           </CardHeader>
 
           <CardContent className="text-center">
             <p className="text-sm text-slate-500">
-              We couldn't find the medicine you're looking for.
-              It may have been removed or the URL may be invalid.
+              We couldn't find the medicine you're looking for. It may have been
+              removed or the URL may be invalid.
             </p>
 
             <Link href="/" className="mt-6 inline-block">

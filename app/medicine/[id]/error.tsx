@@ -4,12 +4,7 @@ import { useEffect } from "react";
 import { AlertCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Error({
   reset,
@@ -30,21 +25,16 @@ export default function Error({
               <AlertCircle className="h-6 w-6 text-red-600" />
             </div>
 
-            <CardTitle className="text-2xl">
-              Unable to load medicine
-            </CardTitle>
+            <CardTitle className="text-2xl">Unable to load medicine</CardTitle>
           </CardHeader>
 
           <CardContent className="text-center">
             <p className="text-sm text-slate-500">
-              Something went wrong while loading this medicine.
-              Please try again.
+              Something went wrong while loading this medicine. Please try
+              again.
             </p>
 
-            <Button
-              onClick={() => reset()}
-              className="mt-6"
-            >
+            <Button onClick={() => reset()} className="mt-6">
               Try again
             </Button>
           </CardContent>

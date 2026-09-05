@@ -27,8 +27,7 @@ import { Medicine } from "@/types/medicine";
 export default function Home() {
   const router = useRouter();
 
-  const abortControllerRef =
-    useRef<AbortController | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Ref for the results section
   const resultsRef = useRef<HTMLElement | null>(null);
@@ -72,17 +71,11 @@ export default function Home() {
     });
 
     try {
-      const data = await searchMedicines(
-        cleanQuery,
-        controller.signal
-      );
+      const data = await searchMedicines(cleanQuery, controller.signal);
 
       setMedicines(data.results ?? []);
     } catch (error) {
-      if (
-        error instanceof Error &&
-        error.name === "AbortError"
-      ) {
+      if (error instanceof Error && error.name === "AbortError") {
         return;
       }
 
@@ -90,9 +83,7 @@ export default function Home() {
 
       setMedicines([]);
 
-      setError(
-        "Something went wrong. Please try again."
-      );
+      setError("Something went wrong. Please try again.");
     } finally {
       if (abortControllerRef.current === controller) {
         setLoading(false);
@@ -103,25 +94,17 @@ export default function Home() {
 
   return (
     <main className="medi-page">
-
       {/* =====================================================
           HEADER
       ===================================================== */}
 
       <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
         <div className="medi-header-inner">
-
           {/* Brand */}
 
           <div className="flex items-center gap-3">
             <div
-              className="
-                relative
-                flex
-                h-10
-                w-10
-                shrink-0
-                items-center
+              className="relative flex h-10 w-10 shrink-0 items-center
                 justify-center
                 overflow-hidden
                 rounded-xl
@@ -169,7 +152,6 @@ export default function Home() {
             "
           >
             <ShieldCheck className="mr-1.5 h-3.5 w-3.5 text-blue-600" />
-
             FDA Drug Labels
           </Badge>
         </div>
@@ -180,7 +162,6 @@ export default function Home() {
       ===================================================== */}
 
       <section className="medi-hero">
-
         {/* Background */}
 
         <div className="medi-hero-glow">
@@ -191,9 +172,7 @@ export default function Home() {
         </div>
 
         <div className="medi-hero-inner">
-
           <div className="medi-hero-content">
-
             {/* Eyebrow */}
 
             <Badge
@@ -214,7 +193,6 @@ export default function Home() {
               "
             >
               <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-
               Search medicines with confidence
             </Badge>
 
@@ -233,7 +211,6 @@ export default function Home() {
               "
             >
               Medicine information,
-
               <span
                 className="
                   block
@@ -262,9 +239,8 @@ export default function Home() {
                 sm:leading-8
               "
             >
-              Search by brand name and explore structured
-              medicine information directly from FDA drug
-              label data.
+              Search by brand name and explore structured medicine information
+              directly from FDA drug label data.
             </p>
 
             {/* Search */}
@@ -282,17 +258,13 @@ export default function Home() {
                   ring-slate-900/[0.025]
                 "
               >
-                <SearchBar
-                  onSearch={handleSearch}
-                  loading={loading}
-                />
+                <SearchBar onSearch={handleSearch} loading={loading} />
               </div>
             </div>
 
             {/* Popular searches */}
 
             <div className="medi-popular text-xs text-slate-500">
-
               <span className="font-medium text-slate-400">
                 Popular searches
               </span>
@@ -315,7 +287,6 @@ export default function Home() {
                 "
               >
                 Advil
-
                 <ArrowRight
                   className="
                     h-3
@@ -328,9 +299,7 @@ export default function Home() {
                 />
               </button>
 
-              <span className="text-slate-300">
-                •
-              </span>
+              <span className="text-slate-300">•</span>
 
               <button
                 type="button"
@@ -350,7 +319,6 @@ export default function Home() {
                 "
               >
                 Tylenol
-
                 <ArrowRight
                   className="
                     h-3
@@ -363,9 +331,7 @@ export default function Home() {
                 />
               </button>
 
-              <span className="text-slate-300">
-                •
-              </span>
+              <span className="text-slate-300">•</span>
 
               <button
                 type="button"
@@ -385,7 +351,6 @@ export default function Home() {
                 "
               >
                 Aspirin
-
                 <ArrowRight
                   className="
                     h-3
@@ -405,16 +370,13 @@ export default function Home() {
           ================================================= */}
 
           <div className="medi-trust">
-
             <div className="medi-trust-item">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
                 <Database className="h-4 w-4" />
               </div>
 
               <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-900">
-                  FDA sourced
-                </p>
+                <p className="text-xs font-bold text-slate-900">FDA sourced</p>
 
                 <p className="mt-0.5 text-[11px] text-slate-500">
                   Structured drug labels
@@ -428,9 +390,7 @@ export default function Home() {
               </div>
 
               <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-900">
-                  Fast lookup
-                </p>
+                <p className="text-xs font-bold text-slate-900">Fast lookup</p>
 
                 <p className="mt-0.5 text-[11px] text-slate-500">
                   Results in seconds
@@ -461,18 +421,13 @@ export default function Home() {
           RESULTS
       ===================================================== */}
 
-      <section
-        ref={resultsRef}
-        className="medi-results scroll-mt-28"
-      >
-
+      <section ref={resultsRef} className="medi-results scroll-mt-28">
         {/* ---------------------------------------------------
             LOADING
         --------------------------------------------------- */}
 
         {loading && (
           <div>
-
             <div className="mb-7 flex items-end justify-between gap-4">
               <div className="space-y-2.5">
                 <Skeleton className="h-3 w-28" />
@@ -484,13 +439,9 @@ export default function Home() {
             </div>
 
             <div className="medi-result-grid">
-              {Array.from({ length: 4 }).map(
-                (_, index) => (
-                  <MedicineCardSkeleton
-                    key={index}
-                  />
-                )
-              )}
+              {Array.from({ length: 4 }).map((_, index) => (
+                <MedicineCardSkeleton key={index} />
+              ))}
             </div>
           </div>
         )}
@@ -501,7 +452,6 @@ export default function Home() {
 
         {error && !loading && (
           <div className="medi-empty">
-
             <div
               className="
                 overflow-hidden
@@ -513,7 +463,6 @@ export default function Home() {
               "
             >
               <div className="p-8 text-center sm:p-10">
-
                 <div
                   className="
                     mx-auto
@@ -529,9 +478,7 @@ export default function Home() {
                     ring-red-50/60
                   "
                 >
-                  <span className="text-xl font-bold">
-                    !
-                  </span>
+                  <span className="text-xl font-bold">!</span>
                 </div>
 
                 <h2 className="mt-6 text-xl font-bold tracking-tight text-slate-900">
@@ -539,15 +486,13 @@ export default function Home() {
                 </h2>
 
                 <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-500">
-                  We couldn't load the medicine data.
-                  Please try searching again.
+                  We couldn't load the medicine data. Please try searching
+                  again.
                 </p>
 
                 <button
                   type="button"
-                  onClick={() =>
-                    handleSearch(searchQuery)
-                  }
+                  onClick={() => handleSearch(searchQuery)}
                   className="
                     mt-6
                     inline-flex
@@ -566,7 +511,6 @@ export default function Home() {
                   "
                 >
                   Try again
-
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
@@ -578,26 +522,12 @@ export default function Home() {
             INITIAL STATE
         --------------------------------------------------- */}
 
-        {!loading &&
-          !error &&
-          !hasSearched && (
-            <div className="medi-empty">
-
-              <div
-                className="
-                  overflow-hidden
-                  rounded-3xl
-                  border
-                  border-slate-200/80
-                  bg-white
-                  shadow-[0_12px_40px_rgba(15,23,42,0.05)]
-                "
-              >
-
-                <div className="relative px-6 py-12 text-center sm:px-10 sm:py-14">
-
-                  <div
-                    className="
+        {!loading && !error && !hasSearched && (
+          <div className="medi-empty">
+            <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-[0_12px_40px_rgba(15,23,42,0.05)]">
+              <div className="relative px-6 py-12 text-center sm:px-10 sm:py-14">
+                <div
+                  className="
                       pointer-events-none
                       absolute
                       left-1/2
@@ -609,10 +539,10 @@ export default function Home() {
                       bg-blue-50
                       blur-3xl
                     "
-                  />
+                />
 
-                  <div
-                    className="
+                <div
+                  className="
                       relative
                       mx-auto
                       flex
@@ -626,12 +556,12 @@ export default function Home() {
                       ring-8
                       ring-blue-50/50
                     "
-                  >
-                    <Search className="h-6 w-6" />
-                  </div>
+                >
+                  <Search className="h-6 w-6" />
+                </div>
 
-                  <h2
-                    className="
+                <h2
+                  className="
                       relative
                       mt-6
                       text-xl
@@ -640,12 +570,12 @@ export default function Home() {
                       text-slate-900
                       sm:text-2xl
                     "
-                  >
-                    Start with a medicine name
-                  </h2>
+                >
+                  Start with a medicine name
+                </h2>
 
-                  <p
-                    className="
+                <p
+                  className="
                       relative
                       mx-auto
                       mt-2
@@ -654,78 +584,69 @@ export default function Home() {
                       leading-6
                       text-slate-500
                     "
-                  >
-                    Enter a brand name above to explore
-                    available FDA drug label information.
-                  </p>
+                >
+                  Enter a brand name above to explore available FDA drug label
+                  information.
+                </p>
+              </div>
+
+              <div className="grid border-t border-slate-100 sm:grid-cols-3">
+                <div className="flex items-center gap-3 border-b border-slate-100 px-6 py-5 sm:border-b-0 sm:border-r">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                    <Database className="h-4 w-4" />
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">FDA data</p>
+
+                    <p className="mt-0.5 text-xs text-slate-500">
+                      Structured labels
+                    </p>
+                  </div>
                 </div>
 
-                <div className="grid border-t border-slate-100 sm:grid-cols-3">
-
-                  <div className="flex items-center gap-3 border-b border-slate-100 px-6 py-5 sm:border-b-0 sm:border-r">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                      <Database className="h-4 w-4" />
-                    </div>
-
-                    <div>
-                      <p className="text-sm font-bold text-slate-900">
-                        FDA data
-                      </p>
-
-                      <p className="mt-0.5 text-xs text-slate-500">
-                        Structured labels
-                      </p>
-                    </div>
+                <div className="flex items-center gap-3 border-b border-slate-100 px-6 py-5 sm:border-b-0 sm:border-r">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600">
+                    <Zap className="h-4 w-4" />
                   </div>
 
-                  <div className="flex items-center gap-3 border-b border-slate-100 px-6 py-5 sm:border-b-0 sm:border-r">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600">
-                      <Zap className="h-4 w-4" />
-                    </div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">Up to 20</p>
 
-                    <div>
-                      <p className="text-sm font-bold text-slate-900">
-                        Up to 20
-                      </p>
+                    <p className="mt-0.5 text-xs text-slate-500">
+                      Results per search
+                    </p>
+                  </div>
+                </div>
 
-                      <p className="mt-0.5 text-xs text-slate-500">
-                        Results per search
-                      </p>
-                    </div>
+                <div className="flex items-center gap-3 px-6 py-5">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                    <ShieldCheck className="h-4 w-4" />
                   </div>
 
-                  <div className="flex items-center gap-3 px-6 py-5">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-                      <ShieldCheck className="h-4 w-4" />
-                    </div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">
+                      Reliable source
+                    </p>
 
-                    <div>
-                      <p className="text-sm font-bold text-slate-900">
-                        Reliable source
-                      </p>
-
-                      <p className="mt-0.5 text-xs text-slate-500">
-                        FDA label data
-                      </p>
-                    </div>
+                    <p className="mt-0.5 text-xs text-slate-500">
+                      FDA label data
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
         {/* ---------------------------------------------------
             NO RESULTS
         --------------------------------------------------- */}
 
-        {!loading &&
-          !error &&
-          hasSearched &&
-          medicines.length === 0 && (
-            <div className="medi-empty">
-
-              <div
-                className="
+        {!loading && !error && hasSearched && medicines.length === 0 && (
+          <div className="medi-empty">
+            <div
+              className="
                   rounded-3xl
                   border
                   border-slate-200/80
@@ -734,9 +655,9 @@ export default function Home() {
                   text-center
                   shadow-[0_12px_40px_rgba(15,23,42,0.05)]
                 "
-              >
-                <div
-                  className="
+            >
+              <div
+                className="
                     mx-auto
                     flex
                     h-14
@@ -747,24 +668,24 @@ export default function Home() {
                     bg-slate-100
                     text-slate-400
                   "
-                >
-                  <Search className="h-6 w-6" />
-                </div>
+              >
+                <Search className="h-6 w-6" />
+              </div>
 
-                <h2 className="mt-6 text-xl font-bold tracking-tight text-slate-900">
-                  No medicines found
-                </h2>
+              <h2 className="mt-6 text-xl font-bold tracking-tight text-slate-900">
+                No medicines found
+              </h2>
 
-                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
-                  We couldn't find a medicine matching{" "}
-                  <span className="font-semibold text-slate-700">
-                    "{searchQuery}"
-                  </span>
-                  . Try searching for another brand name.
-                </p>
+              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
+                We couldn't find a medicine matching{" "}
+                <span className="font-semibold text-slate-700">
+                  "{searchQuery}"
+                </span>
+                . Try searching for another brand name.
+              </p>
 
-                <div
-                  className="
+              <div
+                className="
                     mt-6
                     inline-flex
                     items-center
@@ -779,31 +700,25 @@ export default function Home() {
                     font-medium
                     text-slate-500
                   "
-                >
-                  <FileText className="h-3.5 w-3.5" />
-
-                  Try a common brand name such as Advil
-                </div>
+              >
+                <FileText className="h-3.5 w-3.5" />
+                Try a common brand name such as Advil
               </div>
             </div>
-          )}
+          </div>
+        )}
 
         {/* ---------------------------------------------------
             SEARCH RESULTS
         --------------------------------------------------- */}
 
-        {!loading &&
-          !error &&
-          medicines.length > 0 && (
-            <div>
-
-              <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-
-                <div className="min-w-0">
-
-                  <div className="mb-2.5 flex items-center gap-2">
-                    <span
-                      className="
+        {!loading && !error && medicines.length > 0 && (
+          <div>
+            <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="min-w-0">
+                <div className="mb-2.5 flex items-center gap-2">
+                  <span
+                    className="
                         h-1.5
                         w-1.5
                         shrink-0
@@ -811,45 +726,41 @@ export default function Home() {
                         bg-blue-600
                         shadow-[0_0_0_4px_rgba(37,99,235,0.08)]
                       "
-                    />
+                  />
 
-                    <p
-                      className="
+                  <p
+                    className="
                         text-[11px]
                         font-bold
                         uppercase
                         tracking-[0.18em]
                         text-blue-600
                       "
-                    >
-                      Search results
-                    </p>
-                  </div>
+                  >
+                    Search results
+                  </p>
+                </div>
 
-                  <h2
-                    className="
+                <h2
+                  className="
                       text-2xl
                       font-bold
                       tracking-[-0.025em]
                       text-slate-950
                       sm:text-3xl
                     "
-                  >
-                    Medicines matching{" "}
+                >
+                  Medicines matching{" "}
+                  <span className="text-slate-400">"{searchQuery}"</span>
+                </h2>
 
-                    <span className="text-slate-400">
-                      "{searchQuery}"
-                    </span>
-                  </h2>
+                <p className="mt-1.5 text-sm text-slate-500">
+                  Browse structured information from available drug labels.
+                </p>
+              </div>
 
-                  <p className="mt-1.5 text-sm text-slate-500">
-                    Browse structured information from
-                    available drug labels.
-                  </p>
-                </div>
-
-                <div
-                  className="
+              <div
+                className="
                     flex
                     shrink-0
                     items-center
@@ -867,49 +778,38 @@ export default function Home() {
                     shadow-sm
                     sm:self-auto
                   "
-                >
-                  <span
-                    className="
+              >
+                <span
+                  className="
                       h-1.5
                       w-1.5
                       rounded-full
                       bg-emerald-500
                       shadow-[0_0_0_3px_rgba(16,185,129,0.1)]
                     "
-                  />
-
-                  {medicines.length}{" "}
-                  {medicines.length === 1
-                    ? "result"
-                    : "results"}
-                </div>
-              </div>
-
-              <div className="medi-result-grid">
-                {medicines.map(
-                  (medicine, index) => (
-                    <MedicineCard
-                      key={
-                        medicine.id ?? index
-                      }
-                      medicine={medicine}
-                      onClick={() => {
-                        if (!medicine.id) {
-                          return;
-                        }
-
-                        router.push(
-                          `/medicine/${encodeURIComponent(
-                            medicine.id
-                          )}`
-                        );
-                      }}
-                    />
-                  )
-                )}
+                />
+                {medicines.length}{" "}
+                {medicines.length === 1 ? "result" : "results"}
               </div>
             </div>
-          )}
+
+            <div className="medi-result-grid">
+              {medicines.map((medicine, index) => (
+                <MedicineCard
+                  key={medicine.id ?? index}
+                  medicine={medicine}
+                  onClick={() => {
+                    if (!medicine.id) {
+                      return;
+                    }
+
+                    router.push(`/medicine/${encodeURIComponent(medicine.id)}`);
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* =====================================================
@@ -917,9 +817,7 @@ export default function Home() {
       ===================================================== */}
 
       <footer className="border-t border-slate-200/70 bg-white">
-
         <div className="medi-footer-inner">
-
           <div className="flex items-center justify-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
               <Pill className="h-3.5 w-3.5" />
@@ -931,8 +829,7 @@ export default function Home() {
           </div>
 
           <p className="text-[11px] leading-5 text-slate-400">
-            Medicine information sourced from FDA drug
-            label data.
+            Medicine information sourced from FDA drug label data.
           </p>
         </div>
       </footer>

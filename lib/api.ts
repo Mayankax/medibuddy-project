@@ -6,7 +6,7 @@ const searchCache = new Map<string, FDAResponse>();
 
 export async function searchMedicines(
   query: string,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<FDAResponse> {
   const cacheKey = query.trim().toLowerCase();
 
@@ -18,10 +18,7 @@ export async function searchMedicines(
 
   const url = new URL(FDA_API_URL);
 
-  url.searchParams.set(
-    "search",
-    `openfda.brand_name:"${query}"`
-  );
+  url.searchParams.set("search", `openfda.brand_name:"${query}"`);
 
   url.searchParams.set("limit", "20");
 
@@ -48,9 +45,7 @@ export async function searchMedicines(
   return data;
 }
 
-export async function getMedicineById(
-  id: string
-): Promise<Medicine | null> {
+export async function getMedicineById(id: string): Promise<Medicine | null> {
   const url = new URL(FDA_API_URL);
 
   url.searchParams.set("search", `id:"${id}"`);

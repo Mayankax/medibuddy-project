@@ -11,10 +11,7 @@ interface SearchBarProps {
   loading: boolean;
 }
 
-export default function SearchBar({
-  onSearch,
-  loading,
-}: SearchBarProps) {
+export default function SearchBar({ onSearch, loading }: SearchBarProps) {
   const [query, setQuery] = useState("");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -46,11 +43,7 @@ export default function SearchBar({
         />
       </div>
 
-      <Button
-        type="submit"
-        disabled={loading}
-        className="h-11 rounded-xl px-6"
-      >
+      <Button type="submit" disabled={loading} className="h-11 rounded-xl px-6">
         {loading ? "Searching..." : "Search"}
       </Button>
     </form>

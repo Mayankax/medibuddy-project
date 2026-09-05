@@ -12,10 +12,7 @@ function getFirstValue(value?: string[]) {
   return value?.[0] ?? "Not available";
 }
 
-export default function MedicineCard({
-  medicine,
-  onClick,
-}: MedicineCardProps) {
+export default function MedicineCard({ medicine, onClick }: MedicineCardProps) {
   const openfda = medicine.openfda;
 
   return (
@@ -40,9 +37,7 @@ export default function MedicineCard({
 
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <p className="text-xs font-medium text-slate-500">
-              Generic name
-            </p>
+            <p className="text-xs font-medium text-slate-500">Generic name</p>
 
             <p className="mt-1 text-sm text-slate-800">
               {getFirstValue(openfda?.generic_name)}
@@ -50,9 +45,7 @@ export default function MedicineCard({
           </div>
 
           <div>
-            <p className="text-xs font-medium text-slate-500">
-              Manufacturer
-            </p>
+            <p className="text-xs font-medium text-slate-500">Manufacturer</p>
 
             <p className="mt-1 text-sm text-slate-800">
               {getFirstValue(openfda?.manufacturer_name)}
@@ -60,9 +53,7 @@ export default function MedicineCard({
           </div>
 
           <div>
-            <p className="text-xs font-medium text-slate-500">
-              Product type
-            </p>
+            <p className="text-xs font-medium text-slate-500">Product type</p>
 
             <p className="mt-1 text-sm text-slate-800">
               {getFirstValue(openfda?.product_type)}
@@ -70,9 +61,7 @@ export default function MedicineCard({
           </div>
 
           <div>
-            <p className="text-xs font-medium text-slate-500">
-              Route
-            </p>
+            <p className="text-xs font-medium text-slate-500">Route</p>
 
             <p className="mt-1 text-sm text-slate-800">
               {getFirstValue(openfda?.route)}

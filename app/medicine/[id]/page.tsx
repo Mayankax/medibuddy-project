@@ -6,7 +6,6 @@ import {
   Building2,
   CheckCircle2,
   ClipboardList,
-  Database,
   FileText,
   Info,
   Pill,
@@ -35,12 +34,6 @@ function getValues(value?: string[]) {
   }
 
   return value.filter(Boolean);
-}
-
-function formatLabel(key: string) {
-  return key
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 function DetailField({
@@ -151,9 +144,7 @@ function TextSection({
             <Icon className="h-4 w-4" />
           </div>
 
-          <h3 className="text-sm font-bold text-slate-900">
-            {title}
-          </h3>
+          <h3 className="text-sm font-bold text-slate-900">{title}</h3>
         </div>
       </CardHeader>
 
@@ -188,57 +179,11 @@ export default async function MedicineDetailPage({
 
   const brandName = getFirstValue(openfda.brand_name);
   const genericName = getFirstValue(openfda.generic_name);
-  const manufacturer = getFirstValue(
-    openfda.manufacturer_name
-  );
-  const productType = getFirstValue(
-    openfda.product_type
-  );
+  const manufacturer = getFirstValue(openfda.manufacturer_name);
+  const productType = getFirstValue(openfda.product_type);
   const route = getFirstValue(openfda.route);
 
-  const activeIngredients = getValues(
-    medicine.active_ingredient
-  );
-
-  const additionalDetails = Object.entries(medicine).filter(
-    ([key, value]) =>
-      key !== "openfda" &&
-      key !== "id" &&
-      Array.isArray(value) &&
-      value.length > 0
-  );
-
-  const hiddenFields = new Set([
-    "purpose",
-    "description",
-    "statement_of_identity",
-    "active_ingredient",
-    "dosage_forms_and_strengths",
-    "dosage_and_administration",
-    "inactive_ingredient",
-    "indications_and_usage",
-    "warnings",
-    "warnings_and_cautions",
-    "contraindications",
-    "do_not_use",
-    "ask_doctor",
-    "ask_doctor_or_pharmacist",
-    "pregnancy_or_breast_feeding",
-    "stop_use",
-    "when_using",
-    "keep_out_of_reach_of_children",
-    "adverse_reactions",
-    "drug_interactions",
-    "overdosage",
-    "pharmacokinetics",
-    "pharmacodynamics",
-    "mechanism_of_action",
-    "clinical_pharmacology",
-  ]);
-
-  const remainingDetails = additionalDetails.filter(
-    ([key]) => !hiddenFields.has(key)
-  );
+  const activeIngredients = getValues(medicine.active_ingredient);
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -274,10 +219,7 @@ export default async function MedicineDetailPage({
                     </Badge>
 
                     {productType !== "Not available" && (
-                      <Badge
-                        variant="secondary"
-                        className="rounded-full"
-                      >
+                      <Badge variant="secondary" className="rounded-full">
                         {productType}
                       </Badge>
                     )}
@@ -352,6 +294,23 @@ export default async function MedicineDetailPage({
           </div>
         </section>
 
+        {/* Description */}
+        {getValues(medicine.description).length > 0 && (
+          <div className="mt-8">
+            <InformationSection
+              icon={FileText}
+              title="Description"
+              description="Description provided in the FDA drug label."
+            >
+              <TextSection
+                title="Medicine description"
+                icon={FileText}
+                values={medicine.description}
+              />
+            </InformationSection>
+          </div>
+        )}
+
         {/* Purpose */}
         {getValues(medicine.purpose).length > 0 && (
           <div className="mt-8">
@@ -368,16 +327,14 @@ export default async function MedicineDetailPage({
                     </p>
 
                     <div className="mt-2 space-y-2">
-                      {getValues(medicine.purpose).map(
-                        (value, index) => (
-                          <p
-                            key={index}
-                            className="whitespace-pre-line text-sm font-semibold leading-6 text-slate-800"
-                          >
-                            {value}
-                          </p>
-                        )
-                      )}
+                      {getValues(medicine.purpose).map((value, index) => (
+                        <p
+                          key={index}
+                          className="whitespace-pre-line text-sm font-semibold leading-6 text-slate-800"
+                        >
+                          {value}
+                        </p>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -404,20 +361,11 @@ export default async function MedicineDetailPage({
                 values={medicine.dosage_forms_and_strengths}
               />
 
-              <DetailField
-                label="Route"
-                values={openfda.route}
-              />
+              <DetailField label="Route" values={openfda.route} />
 
-              <DetailField
-                label="Product type"
-                values={openfda.product_type}
-              />
+              <DetailField label="Product type" values={openfda.product_type} />
 
-              <DetailField
-                label="Generic name"
-                values={openfda.generic_name}
-              />
+              <DetailField label="Generic name" values={openfda.generic_name} />
 
               <DetailField
                 label="Manufacturer"
@@ -437,10 +385,7 @@ export default async function MedicineDetailPage({
             >
               <div className="grid gap-3 sm:grid-cols-2">
                 {activeIngredients.map((ingredient, index) => (
-                  <Card
-                    key={index}
-                    className="border-slate-200 shadow-sm"
-                  >
+                  <Card key={index} className="border-slate-200 shadow-sm">
                     <CardContent className="p-5">
                       <div className="flex items-start gap-3">
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-primary">
@@ -460,8 +405,7 @@ export default async function MedicineDetailPage({
         )}
 
         {/* Uses */}
-        {getValues(medicine.indications_and_usage).length >
-          0 && (
+        {getValues(medicine.indications_and_usage).length > 0 && (
           <div className="mt-10">
             <InformationSection
               icon={CheckCircle2}
@@ -477,8 +421,7 @@ export default async function MedicineDetailPage({
         )}
 
         {/* Dosage */}
-        {getValues(medicine.dosage_and_administration).length >
-          0 && (
+        {getValues(medicine.dosage_and_administration).length > 0 && (
           <div className="mt-10">
             <InformationSection
               icon={ClipboardList}
@@ -495,9 +438,8 @@ export default async function MedicineDetailPage({
 
         {/* Safety */}
         {(getValues(medicine.warnings).length > 0 ||
-          getValues(medicine.warnings_and_cautions).length >
-            0 ||
-          getValues(medicine.adverse_reactions).length > 0) && (
+          getValues(medicine.adverse_reactions).length > 0 ||
+          getValues(medicine.contraindications).length > 0) && (
           <div className="mt-10">
             <InformationSection
               icon={ShieldAlert}
@@ -513,10 +455,10 @@ export default async function MedicineDetailPage({
                 />
 
                 <TextSection
-                  title="Warnings & cautions"
+                  title="Contraindications"
                   icon={ShieldAlert}
-                  values={medicine.warnings_and_cautions}
-                  tone="warning"
+                  values={medicine.contraindications}
+                  tone="danger"
                 />
 
                 <TextSection
@@ -533,10 +475,7 @@ export default async function MedicineDetailPage({
         {/* Precautions */}
         {(getValues(medicine.do_not_use).length > 0 ||
           getValues(medicine.ask_doctor).length > 0 ||
-          getValues(medicine.ask_doctor_or_pharmacist).length >
-            0 ||
-          getValues(medicine.pregnancy_or_breast_feeding).length >
-            0 ||
+          getValues(medicine.pregnancy_or_breast_feeding).length > 0 ||
           getValues(medicine.stop_use).length > 0 ||
           getValues(medicine.when_using).length > 0) && (
           <div className="mt-10">
@@ -561,17 +500,9 @@ export default async function MedicineDetailPage({
                 />
 
                 <TextSection
-                  title="Ask a doctor or pharmacist"
-                  icon={Stethoscope}
-                  values={medicine.ask_doctor_or_pharmacist}
-                />
-
-                <TextSection
                   title="Pregnancy & breastfeeding"
                   icon={Baby}
-                  values={
-                    medicine.pregnancy_or_breast_feeding
-                  }
+                  values={medicine.pregnancy_or_breast_feeding}
                   tone="warning"
                 />
 
@@ -592,33 +523,20 @@ export default async function MedicineDetailPage({
           </div>
         )}
 
-        {/* Other FDA fields */}
-        {remainingDetails.length > 0 && (
+        {/* Drug interactions */}
+        {getValues(medicine.drug_interactions).length > 0 && (
           <div className="mt-10">
             <InformationSection
-              icon={Database}
-              title="Additional FDA information"
-              description="Other fields available in this label record."
+              icon={AlertTriangle}
+              title="Drug interactions"
+              description="Drug interaction information available in the FDA label."
             >
-              <Card className="border-slate-200 shadow-sm">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {remainingDetails.map(
-                      ([key, value]) => (
-                        <DetailField
-                          key={key}
-                          label={formatLabel(key)}
-                          values={
-                            Array.isArray(value)
-                              ? value
-                              : undefined
-                          }
-                        />
-                      )
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+              <TextSection
+                title="Interactions"
+                icon={AlertTriangle}
+                values={medicine.drug_interactions}
+                tone="warning"
+              />
             </InformationSection>
           </div>
         )}
@@ -633,11 +551,10 @@ export default async function MedicineDetailPage({
             </p>
 
             <p className="mt-1 text-xs leading-5 text-slate-500">
-              This information is reproduced from the
-              available openFDA drug label data. Label
-              information may vary between products and
-              countries. It is not a substitute for medical
-              advice from a qualified healthcare professional.
+              This information is reproduced from the available openFDA drug
+              label data. Label information may vary between products and
+              countries. It is not a substitute for medical advice from a
+              qualified healthcare professional.
             </p>
 
             {medicine.id && (

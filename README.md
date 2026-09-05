@@ -3,6 +3,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Getting Started
 
 First, run the development server:
+
 # MediSearch
 
 MediSearch is a responsive medicine lookup app that searches FDA drug labels by brand name and presents the matching medicines in a scannable results list. Selecting a result opens a detailed medicine page with available label information. It is built with Next.js 16, React 19, TypeScript, Tailwind CSS, and shadcn/ui components.
