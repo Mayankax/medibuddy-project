@@ -5,6 +5,8 @@ import { useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import { searchMedicines } from "@/lib/api";
 import { Medicine } from "@/types/medicine";
+import MedicineCard from "@/components/MedicineCard";
+
 
 export default function Home() {
   const [medicines, setMedicines] = useState<Medicine[]>([]);
@@ -110,22 +112,15 @@ export default function Home() {
                 Search results
               </h2>
 
-              <div className="space-y-3">
+              <div className="grid gap-4 md:grid-cols-2">
                 {medicines.map((medicine, index) => (
-                  <div
+                  <MedicineCard
                     key={index}
-                    className="rounded-xl border bg-white p-5 shadow-sm"
-                  >
-                    <h3 className="font-semibold text-slate-900">
-                      {medicine.openfda?.brand_name?.[0] ??
-                        "Unknown medicine"}
-                    </h3>
-
-                    <p className="mt-1 text-sm text-slate-500">
-                      {medicine.openfda?.generic_name?.[0] ??
-                        "Generic name not available"}
-                    </p>
-                  </div>
+                    medicine={medicine}
+                    onClick={() => {
+                      console.log("Selected medicine:", medicine);
+                    }}
+                  />
                 ))}
               </div>
             </div>
