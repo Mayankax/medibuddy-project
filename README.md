@@ -3,22 +3,44 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Getting Started
 
 First, run the development server:
+# MediSearch
+
+MediSearch is a responsive medicine lookup app that searches FDA drug labels by brand name and presents the matching medicines in a scannable results list. Selecting a result opens a detailed medicine page with available label information. It is built with Next.js 16, React 19, TypeScript, Tailwind CSS, and shadcn/ui components.
+
+## How to Run
+
+Clone the repository, install its dependencies, and start the development server:
 
 ```bash
+git clone https://github.com/Mayankax/medibuddy-project.git
+cd medibuddy-project
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in a browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Key Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Medicine search using the public FDA Drug Label API
+- Search results with brand name, generic name, manufacturer, product type, and route
+- Detailed medicine pages for individual FDA label records
+- Loading, empty, error, and not-found states
+- Responsive interface with accessible form controls and keyboard focus states
+- In-memory search caching for repeated queries
+- Request cancellation when a new search starts
+
+## Technical Trade-offs
+
+- **Form submission instead of keystroke search:** Searches run when the user submits the form, avoiding unnecessary API requests while the query is still being typed.
+- **Caching:** Results are cached in a module-level `Map` using a normalized query key, making repeated searches faster without adding a persistent storage dependency.
+- **Request cancellation:** An `AbortController` cancels the previous request before a new search begins, preventing stale responses from competing with the latest query.
+- **No debounce:** Because requests are already limited to form submission, debounce would add complexity without reducing request volume.
+- **No memoization:** The rendered result set and handlers are small enough that `useMemo` or `useCallback` would add indirection without a meaningful performance benefit.
+
+## API
+
+The app uses the public [FDA Drug Label API](https://open.fda.gov/apis/drug/label/) at `https://api.fda.gov/drug/label.json`. Search requests query FDA OpenFDA brand names in the form `openfda.brand_name:"<query>"` and request up to 20 results.
 
 ## Learn More
 
